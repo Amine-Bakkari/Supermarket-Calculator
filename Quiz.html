@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Python - Samsung Innovation Campus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --python-blue: #3776AB;
+            --python-yellow: #FFD43B;
+            --python-light-blue: #4B8BBE;
+            --python-light-yellow: #FFE873;
+            --dark-bg: #1a1a2e;
+            --card-bg: #162447;
+            --text-light: #f1f1f1;
+            --text-muted: #a0a0a0;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0f3460 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid var(--python-blue);
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .python-icon {
+            font-size: 40px;
+            color: var(--python-yellow);
+            margin-right: 15px;
+        }
+
+        h1 {
+            color: var(--python-yellow);
+            font-size: 2.5rem;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            color: var(--python-light-blue);
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* Instructions */
+        .instructions {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--python-yellow);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .instructions h3 {
+            color: var(--python-yellow);
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+
+        /* Quiz Form */
+        .quiz-form {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .question-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--python-blue);
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-left-color: var(--python-yellow);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .question-number {
+            display: inline-block;
+            background-color: var(--python-blue);
+            color: white;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .code-snippet {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            color: var(--python-light-yellow);
+            border-left: 3px solid var(--python-yellow);
+            overflow-x: auto;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .option:hover {
+            background-color: rgba(55, 118, 171, 0.2);
+            border-color: var(--python-blue);
+        }
+
+        .option input {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--python-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--python-light-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(55, 118, 171, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: var(--python-yellow);
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--python-light-yellow);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 212, 59, 0.4);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Code verification */
+        .code-verification {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-top: 5px solid var(--python-yellow);
+        }
+
+        .code-verification h3 {
+            color: var(--python-yellow);
+            margin-bottom: 15px;
+        }
+
+        .code-input-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .code-input {
+            padding: 12px 20px;
+            border-radius: 5px;
+            border: 2px solid var(--python-blue);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            width: 200px;
+            text-align: center;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: var(--python-yellow);
+        }
+
+        /* Results */
+        .results-container {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: none;
+            border-top: 5px solid var(--success);
+        }
+
+        .results-container.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--python-yellow);
+            margin: 20px 0;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .score-text {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+
+        .correct-answers {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .correct-answers h4 {
+            color: var(--python-light-blue);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--python-blue);
+            padding-bottom: 8px;
+        }
+
+        .answer-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .answer-item.correct {
+            border-left: 4px solid var(--success);
+        }
+
+        .answer-item.incorrect {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border-top: 5px solid var(--python-blue);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal h3 {
+            color: var(--python-yellow);
+            margin-bottom: 15px;
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .quiz-form {
+                padding: 20px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .code-input-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .code-input {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .no-print, .actions, .code-verification, footer {
+                display: none !important;
+            }
+            
+            .quiz-form, .results-container {
+                box-shadow: none;
+                border: none;
+            }
+            
+            .results-container {
+                display: block !important;
+            }
+            
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .question-card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <i class="fab fa-python python-icon"></i>
+                <h1>Quiz Python</h1>
+            </div>
+            <div class="subtitle">Samsung Innovation Campus - Évaluation des connaissances</div>
+        </header>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Instructions</h3>
+            <ul>
+                <li>Ce quiz comporte 10 questions sur les fondamentaux de Python.</li>
+                <li>Sélectionnez une seule réponse par question.</li>
+                <li>Après avoir complété le quiz, cliquez sur "Enregistrer les réponses".</li>
+                <li>Pour voir votre score, vous devrez entrer un code d'accès dans la section prévue.</li>
+                <li>Vous pouvez imprimer le quiz et vos résultats avec le bouton "Imprimer PDF".</li>
+            </ul>
+        </div>
+        
+        <form class="quiz-form" id="quizForm">
+            <!-- Les questions seront insérées ici dynamiquement -->
+        </form>
+        
+        <div class="actions">
+            <button type="button" class="btn btn-primary" id="saveBtn">
+                <i class="fas fa-save"></i> Enregistrer les réponses
+            </button>
+            
+            <button type="button" class="btn btn-secondary" id="printBtn">
+                <i class="fas fa-print"></i> Imprimer PDF
+            </button>
+            
+            <button type="button" class="btn btn-danger" id="resetBtn">
+                <i class="fas fa-redo"></i> Réinitialiser
+            </button>
+        </div>
+        
+        <div class="code-verification">
+            <h3><i class="fas fa-lock"></i> Code d'accès pour afficher le score</h3>
+            <p>Pour voir votre score, veuillez entrer le code d'accès fourni par votre instructeur.</p>
+            <div class="code-input-group">
+                <input type="text" class="code-input" id="codeInput" placeholder="Entrez le code">
+                <button type="button" class="btn btn-primary" id="showScoreBtn">
+                    <i class="fas fa-chart-line"></i> Afficher le score
+                </button>
+            </div>
+            <p class="hint" style="margin-top: 15px; color: var(--text-muted); font-size: 0.9rem;">
+                <i class="fas fa-lightbulb"></i> Indice: Le code est "---------"
+            </p>
+        </div>
+        
+        <div class="results-container" id="resultsContainer">
+            <h2><i class="fas fa-trophy"></i> Résultats du Quiz</h2>
+            <div class="score-display" id="scoreDisplay">0/10</div>
+            <div class="score-text" id="scoreText"></div>
+            
+            <div class="correct-answers">
+                <h4><i class="fas fa-check-circle"></i> Correction détaillée</h4>
+                <div id="answersList"></div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Samsung Innovation Campus - Quiz Python | Développé pour l'enseignement des bases de Python</p>
+            <p>© 2026 - Tous droits réservés</p>
+        </footer>
+    </div>
+    
+    <!-- Modal de confirmation -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-check-circle"></i> Réponses enregistrées</h3>
+            <p>Vos réponses ont été enregistrées avec succès !</p>
+            <p>Pour afficher votre score, veuillez entrer le code d'accès dans la section prévue.</p>
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn btn-primary" id="closeModalBtn">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Données du quiz
+        const quizData = [
+            {
+                question: "Quel est le type de la variable x ?",
+                code: "x = 10",
+                options: ["float", "str", "int", "bool"],
+                correct: 2,
+                explanation: "En Python, 10 est un entier (int)."
+            },
+            {
+                question: "Quelle instruction est correcte en Python ?",
+                code: null,
+                options: ["int x = 5", "x = 5", "x := 5;", "var x = 5"],
+                correct: 1,
+                explanation: "En Python, on déclare une variable simplement par 'x = 5' sans type explicite."
+            },
+            {
+                question: "Que retourne ce code ?",
+                code: "L = [1, 2, 3, 4]\nprint(L[1])",
+                options: ["1", "2", "3", "Erreur"],
+                correct: 1,
+                explanation: "L'indexation en Python commence à 0, donc L[1] est le deuxième élément: 2."
+            },
+            {
+                question: "Quelle instruction ajoute l'élément 10 à la fin de la liste L ?",
+                code: null,
+                options: ["L.add(10)", "L.insert(10)", "L.append(10)", "append(L,10)"],
+                correct: 2,
+                explanation: "La méthode append() ajoute un élément à la fin d'une liste."
+            },
+            {
+                question: "Que va afficher ce code ?",
+                code: "x = 5\nif x > 3:\n    print(\"A\")\nelse:\n    print(\"B\")",
+                options: ["B", "A", "Rien", "Erreur"],
+                correct: 1,
+                explanation: "Puisque x=5 est supérieur à 3, la condition est vraie et le programme affiche 'A'."
+            },
+            {
+                question: "Que retourne ce code ?",
+                code: "x = 0\nif x:\n    print(\"True\")\nelse:\n    print(\"False\")",
+                options: ["True", "False", "0", "Erreur"],
+                correct: 1,
+                explanation: "En Python, 0 est évalué comme False dans un contexte booléen."
+            },
+            {
+                question: "Quel est le résultat ?",
+                code: "L = [1, 2, 3]\nL = L * 2\nprint(L)",
+                options: ["[2, 4, 6]", "[1, 2, 3, 2]", "[1, 2, 3, 1, 2, 3]", "Erreur"],
+                correct: 2,
+                explanation: "Multiplier une liste par un entier répète les éléments de la liste."
+            },
+            {
+                question: "Que retourne ce code ?",
+                code: "def f(x):\n    return x * x\n\nprint(f(3))",
+                options: ["6", "9", "3", "Erreur"],
+                correct: 1,
+                explanation: "La fonction f(x) retourne x*x, donc f(3) retourne 3*3 = 9."
+            },
+            {
+                question: "Quel est le résultat ?",
+                code: "def test(L):\n    L.append(5)\n\nx = [1, 2]\ntest(x)\nprint(x)",
+                options: ["[1, 2]", "[5]", "[1, 2, 5]", "Erreur"],
+                correct: 2,
+                explanation: "Les listes sont mutables en Python, donc append() modifie la liste originale."
+            },
+            {
+                question: "Que va afficher ce code ?",
+                code: "x = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)",
+                options: ["[1, 2, 3]", "[4]", "[1, 2, 3, 4]", "Erreur"],
+                correct: 2,
+                explanation: "y = x ne crée pas une copie, mais une référence à la même liste. Modifier y affecte donc aussi x."
+            }
+        ];
+
+        // Code d'accès
+        const ACCESS_CODE = "PYTHON2026";
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            const quizForm = document.getElementById('quizForm');
+            const saveBtn = document.getElementById('saveBtn');
+            const printBtn = document.getElementById('printBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const showScoreBtn = document.getElementById('showScoreBtn');
+            const codeInput = document.getElementById('codeInput');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const confirmationModal = document.getElementById('confirmationModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            
+            // Générer les questions
+            generateQuiz();
+            
+            // Charger les réponses sauvegardées si existent
+            loadSavedAnswers();
+            
+            // Gestionnaires d'événements
+            saveBtn.addEventListener('click', saveAnswers);
+            printBtn.addEventListener('click', printQuiz);
+            resetBtn.addEventListener('click', resetQuiz);
+            showScoreBtn.addEventListener('click', showScore);
+            closeModalBtn.addEventListener('click', closeModal);
+            codeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    showScore();
+                }
+            });
+            
+            // Clic en dehors de la modal pour fermer
+            confirmationModal.addEventListener('click', function(e) {
+                if (e.target === confirmationModal) {
+                    closeModal();
+                }
+            });
+            
+            // Fonction pour générer le quiz
+            function generateQuiz() {
+                quizData.forEach((item, index) => {
+                    const questionCard = document.createElement('div');
+                    questionCard.className = 'question-card';
+                    
+                    let codeHTML = '';
+                    if (item.code) {
+                        codeHTML = `<div class="code-snippet">${item.code}</div>`;
+                    }
+                    
+                    questionCard.innerHTML = `
+                        <div class="question-number">${index + 1}</div>
+                        <div class="question-text">${item.question}</div>
+                        ${codeHTML}
+                        <div class="options-container">
+                            ${item.options.map((option, optIndex) => `
+                                <div class="option">
+                                    <label>
+                                        <input type="radio" name="question${index}" value="${optIndex}">
+                                        ${String.fromCharCode(65 + optIndex)}) ${option}
+                                    </label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    
+                    quizForm.appendChild(questionCard);
+                });
+            }
+            
+            // Sauvegarder les réponses
+            function saveAnswers() {
+                // Récupérer toutes les réponses
+                const answers = {};
+                let allAnswered = true;
+                
+                quizData.forEach((item, index) => {
+                    const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                    if (selectedOption) {
+                        answers[`question${index}`] = parseInt(selectedOption.value);
+                    } else {
+                        allAnswered = false;
+                    }
+                });
+                
+                // Sauvegarder dans localStorage
+                localStorage.setItem('pythonQuizAnswers', JSON.stringify(answers));
+                localStorage.setItem('pythonQuizTimestamp', new Date().toISOString());
+                
+                // Afficher la modal de confirmation
+                confirmationModal.classList.add('show');
+                
+                // Afficher un message si toutes les questions ne sont pas répondues
+                if (!allAnswered) {
+                    setTimeout(() => {
+                        alert("Note: Vous n'avez pas répondu à toutes les questions. Vous pouvez modifier vos réponses et réenregistrer.");
+                    }, 500);
+                }
+            }
+            
+            // Charger les réponses sauvegardées
+            function loadSavedAnswers() {
+                const savedAnswers = localStorage.getItem('pythonQuizAnswers');
+                if (savedAnswers) {
+                    const answers = JSON.parse(savedAnswers);
+                    
+                    Object.keys(answers).forEach(questionName => {
+                        const optionIndex = answers[questionName];
+                        const radioInput = document.querySelector(`input[name="${questionName}"][value="${optionIndex}"]`);
+                        if (radioInput) {
+                            radioInput.checked = true;
+                        }
+                    });
+                    
+                    // Mettre à jour le bouton d'enregistrement
+                    saveBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Mettre à jour les réponses';
+                }
+            }
+            
+            // Afficher le score après vérification du code
+            function showScore() {
+                const enteredCode = codeInput.value.trim();
+                
+                if (enteredCode !== ACCESS_CODE) {
+                    alert("Code incorrect. Veuillez réessayer.");
+                    codeInput.focus();
+                    codeInput.style.borderColor = "var(--danger)";
+                    return;
+                }
+                
+                // Code correct - calculer le score
+                let score = 0;
+                const userAnswers = {};
+                const answersList = document.getElementById('answersList');
+                answersList.innerHTML = '';
+                
+                quizData.forEach((item, index) => {
+                    const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                    let userAnswer = null;
+                    let isCorrect = false;
+                    
+                    if (selectedOption) {
+                        userAnswer = parseInt(selectedOption.value);
+                        isCorrect = (userAnswer === item.correct);
+                        if (isCorrect) score++;
+                    }
+                    
+                    userAnswers[index] = {
+                        userAnswer: userAnswer,
+                        isCorrect: isCorrect,
+                        correctAnswer: item.correct,
+                        explanation: item.explanation
+                    };
+                    
+                    // Ajouter à la liste des réponses
+                    const answerClass = selectedOption ? (isCorrect ? 'correct' : 'incorrect') : '';
+                    const answerStatus = selectedOption ? (isCorrect ? '<i class="fas fa-check" style="color: var(--success);"></i>' : '<i class="fas fa-times" style="color: var(--danger);"></i>') : '<i class="fas fa-minus-circle" style="color: var(--warning);"></i>';
+                    const answerText = selectedOption ? `Votre réponse: ${String.fromCharCode(65 + userAnswer)}) ${item.options[userAnswer]}` : "Non répondue";
+                    const correctAnswerText = `Réponse correcte: ${String.fromCharCode(65 + item.correct)}) ${item.options[item.correct]}`;
+                    
+                    const answerItem = document.createElement('div');
+                    answerItem.className = `answer-item ${answerClass}`;
+                    answerItem.innerHTML = `
+                        <div>
+                            <strong>Question ${index + 1}:</strong> ${item.question}
+                            <div style="margin-top: 5px; font-size: 0.9em;">${answerText}</div>
+                            <div style="margin-top: 5px; font-size: 0.9em;">${correctAnswerText}</div>
+                            <div style="margin-top: 8px; font-size: 0.85em; color: var(--text-muted);">
+                                <i class="fas fa-info-circle"></i> ${item.explanation}
+                            </div>
+                        </div>
+                        <div>
+                            ${answerStatus}
+                        </div>
+                    `;
+                    
+                    answersList.appendChild(answerItem);
+                });
+                
+                // Afficher le score
+                const scoreDisplay = document.getElementById('scoreDisplay');
+                const scoreText = document.getElementById('scoreText');
+                
+                scoreDisplay.textContent = `${score}/${quizData.length}`;
+                
+                let message = "";
+                if (score === quizData.length) {
+                    message = "Excellent ! Vous maîtrisez parfaitement les bases de Python !";
+                    scoreDisplay.classList.add('pulse');
+                } else if (score >= quizData.length * 0.7) {
+                    message = "Bon travail ! Vous avez une bonne compréhension des bases de Python.";
+                } else if (score >= quizData.length * 0.5) {
+                    message = "Pas mal ! Continuez à pratiquer pour améliorer vos compétences.";
+                } else {
+                    message = "Vous devriez revoir les fondamentaux de Python.";
+                }
+                
+                scoreText.textContent = message;
+                
+                // Afficher le conteneur des résultats
+                resultsContainer.classList.add('show');
+                
+                // Sauvegarder le score
+                localStorage.setItem('pythonQuizScore', score);
+                localStorage.setItem('pythonQuizScoreTimestamp', new Date().toISOString());
+                
+                // Faire défiler jusqu'aux résultats
+                resultsContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Imprimer le quiz
+            function printQuiz() {
+                // Afficher les résultats si cachés
+                if (!resultsContainer.classList.contains('show')) {
+                    alert("Pour imprimer avec vos résultats, veuillez d'abord afficher votre score en entrant le code d'accès.");
+                    codeInput.focus();
+                    return;
+                }
+                
+                window.print();
+            }
+            
+            // Réinitialiser le quiz
+            function resetQuiz() {
+                if (confirm("Voulez-vous vraiment réinitialiser toutes vos réponses ?")) {
+                    // Effacer les réponses du formulaire
+                    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                        radio.checked = false;
+                    });
+                    
+                    // Effacer le localStorage
+                    localStorage.removeItem('pythonQuizAnswers');
+                    localStorage.removeItem('pythonQuizTimestamp');
+                    localStorage.removeItem('pythonQuizScore');
+                    localStorage.removeItem('pythonQuizScoreTimestamp');
+                    
+                    // Réinitialiser le bouton d'enregistrement
+                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Enregistrer les réponses';
+                    
+                    // Cacher les résultats
+                    resultsContainer.classList.remove('show');
+                    
+                    // Réinitialiser le champ code
+                    codeInput.value = '';
+                    codeInput.style.borderColor = "var(--python-blue)";
+                    
+                    alert("Quiz réinitialisé avec succès !");
+                }
+            }
+            
+            // Fermer la modal
+            function closeModal() {
+                confirmationModal.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

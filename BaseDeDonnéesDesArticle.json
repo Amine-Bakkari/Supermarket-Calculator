@@ -1,0 +1,18 @@
+{
+    "Articles":[
+        {"Name":"Banana", "TotalPrice":3, "PriceWithoutTVA":2.4, "TVA":0.6},
+        {"Name":"Pomme De Terre", "TotalPrice": 4, "PriceWithoutTVA":3.2, "TVA":0.8},
+        {"Name":"Pomme", "TotalPrice":3, "PriceWithoutTVA":2.4, "TVA":0.6},
+        {"Name":"Ananas", "TotalPrice":17, "PriceWithoutTVA":13.6, "TVA":3.4},
+        {"Name":"Tomate", "TotalPrice":2, "PriceWithoutTVA":1.6, "TVA":0.4},
+        {"Name":"Oreo", "TotalPrice":3, "PriceWithoutTVA":2.4, "TVA":0.6},
+        {"Name":"Yogurt", "TotalPrice":2, "PriceWithoutTVA":1.6, "TVA":0.4},
+        {"Name":"Sidi Ali", "TotalPrice":5, "PriceWithoutTVA":4, "TVA":1},
+        {"Name":"Viande", "TotalPrice":160, "PriceWithoutTVA":128, "TVA":32},
+        {"Name":"Poulet", "TotalPrice":17, "PriceWithoutTVA":13.6, "TVA":3.4},
+        {"Name":"Poison", "TotalPrice":20, "PriceWithoutTVA":16, "TVA":4},
+        {"Name":"Amidon", "TotalPrice":5, "PriceWithoutTVA":4, "TVA":1},
+        {"Name":"Sucre", "TotalPrice":5, "PriceWithoutTVA":4, "TVA":1},
+        {"Name":"Indomi", "TotalPrice":3.5, "PriceWithoutTVA":2.8, "TVA":0.7}
+    ]
+}
